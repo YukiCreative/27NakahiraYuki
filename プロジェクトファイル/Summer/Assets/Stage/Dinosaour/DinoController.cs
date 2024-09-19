@@ -49,7 +49,7 @@ public class DinoController : MonoBehaviour
     {
         m_jumpInterval = kInitJumpInterval + Random.Range(-kRandomRange, kRandomRange);
     }
-    public IEnumerator Damage(int damage)
+    public void Damage(int damage)
     {
         Debug.Log(damage);
         SEGenerator.InstantiateSE(m_audioClip);
