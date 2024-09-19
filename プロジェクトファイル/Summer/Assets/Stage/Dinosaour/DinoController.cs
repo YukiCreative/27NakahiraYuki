@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 
 public class DinoController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class DinoController : MonoBehaviour
     private Vector3 m_jumpPow = new Vector3(0, 5, 0);
     [SerializeField]
     private AudioClip m_audioClip;
+    [SerializeField]
+    private Slider m_hpSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,8 +29,7 @@ public class DinoController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-
+        // 左右に動いたり時々ジャンプしたり
         m_jumpTimer += Time.fixedDeltaTime;
         if (m_jumpTimer > m_jumpInterval)
         {

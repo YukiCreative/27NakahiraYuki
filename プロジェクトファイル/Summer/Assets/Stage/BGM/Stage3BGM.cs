@@ -19,10 +19,14 @@ public class Stage3BGM : MonoBehaviour
         if (PlayerController.s_player.transform.position.x < 25 || PlayerController.s_player.transform.position.x > 48) return;
 
         float fieldVolume = 1 - (PlayerController.s_player.transform.position.x - 25) * 0.1f;
-        if (fieldVolume < 0 )
+        if (fieldVolume < 0)
         {
             // ˆê‰ž0ˆÈ‰º‚É‚Í‚È‚ç‚È‚¢‚æ‚¤‚É
             fieldVolume = 0;
+        }
+        if (fieldVolume > 0.7f)
+        {
+            fieldVolume = 0.7f;
         }
         m_fieldBGM.volume = fieldVolume;
         float bossVolume = (PlayerController.s_player.transform.position.x - 38) * 0.1f;
@@ -30,6 +34,11 @@ public class Stage3BGM : MonoBehaviour
         {
             // “¯‚¶‚­
             bossVolume = 0;
+        }
+        if (bossVolume > 0.7f)
+        {
+            // “¯‚¶‚­
+            bossVolume = 0.7f;
         }
         m_bossBGM.volume = bossVolume;
     }
