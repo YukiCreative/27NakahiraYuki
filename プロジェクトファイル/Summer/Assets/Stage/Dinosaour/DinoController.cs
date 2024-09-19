@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,8 @@ using UnityEngine.UI;
 
 public class DinoController : MonoBehaviour
 {
-    private int m_hp = 5000;
+    private const int kInitHp = 5000;
+    private int m_hp = kInitHp;
     private Animator m_animator;
     private float m_jumpTimer = 0;
     private const int kInitJumpInterval = 3;
@@ -19,12 +21,16 @@ public class DinoController : MonoBehaviour
     private AudioClip m_audioClip;
     [SerializeField]
     private Slider m_hpSlider;
+    [SerializeField]
+    private GameObject m_damageNum;
+    private GameObject m_canvas;
     // Start is called before the first frame update
     void Start()
     {
         m_animator = GetComponent<Animator>();
         ResetInterval();
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        m_canvas = GameObject.Find("Canvas");
     }
 
     private void FixedUpdate()
@@ -48,6 +54,12 @@ public class DinoController : MonoBehaviour
         Debug.Log(damage);
         SEGenerator.InstantiateSE(m_audioClip);
         m_hp -= damage;
+        float barReducevalue = (float)damage / kInitHp;
+        // ダメージをバーに反映
+        m_hpSlider.DOValue(m_hpSlider.value - barReducevalue, 1);
+        // ダメージの数字のオブジェクトを生成
+        GameObject instancce = Instantiate(m_damageNum, transform.position, Quaternion.identity, m_canvas.transform);
+        instancce.GetComponent<DamageNumberController>().SetNum(damage);
         if (m_hp < 0)
         {
             // 脂肪モーションからのエンディング
