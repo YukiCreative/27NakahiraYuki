@@ -100,10 +100,10 @@ TextureImporter:
       name: raptor-idle_0
       rect:
         serializedVersion: 2
-        x: 36
+        x: 0
         y: 0
-        width: 51
-        height: 26
+        width: 124
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,10 +121,10 @@ TextureImporter:
       name: raptor-idle_1
       rect:
         serializedVersion: 2
-        x: 160
+        x: 124
         y: 0
-        width: 51
-        height: 25
+        width: 124
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b61ae602f7afe7d4fb322bfaba867bdd
-      internalID: -188183032
+      spriteID: 03e6e808eadeab84e976d2a46b63ffd0
+      internalID: 1436076622
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       raptor-idle_0: 622872159
-      raptor-idle_1: -188183032
+      raptor-idle_1: 1436076622
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

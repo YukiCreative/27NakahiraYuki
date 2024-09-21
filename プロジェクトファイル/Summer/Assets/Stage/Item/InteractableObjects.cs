@@ -43,7 +43,7 @@ public abstract class InteractableObjects: MonoBehaviour
 
     protected void FixedUpdate()
     {
-        Debug.Log(m_isInteractable);
+        //Debug.Log(m_isInteractable);
         if (m_isInteractable)
         {
             Debug.Log("Interact—¬‚ê‚½");

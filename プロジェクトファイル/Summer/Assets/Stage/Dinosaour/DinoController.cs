@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class DinoController : MonoBehaviour
 {
-    private const int kInitHp = 5000;
+    private const int kInitHp = 500;
     private int m_hp = kInitHp;
     private Animator m_animator;
     private float m_jumpTimer = 0;
@@ -24,6 +24,7 @@ public class DinoController : MonoBehaviour
     [SerializeField]
     private GameObject m_damageNum;
     private GameObject m_canvas;
+    private bool m_isDead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,9 @@ public class DinoController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // 死んでたら動かないよね
+        if (m_isDead) return;
+
         // 左右に動いたり時々ジャンプしたり
         m_jumpTimer += Time.fixedDeltaTime;
         if (m_jumpTimer > m_jumpInterval)
@@ -51,24 +55,42 @@ public class DinoController : MonoBehaviour
     }
     public void Damage(int damage)
     {
-        Debug.Log(damage);
+        // 死んでたら死なないよね
+        if (m_isDead) return;
+
         SEGenerator.InstantiateSE(m_audioClip);
         m_hp -= damage;
         float barReducevalue = (float)damage / kInitHp;
         // ダメージをバーに反映
-        m_hpSlider.DOValue(m_hpSlider.value - barReducevalue, 1);
+        ReduceHpBar(barReducevalue);
         // ダメージの数字のオブジェクトを生成
         GameObject instancce = Instantiate(m_damageNum, transform.position, Quaternion.identity, m_canvas.transform);
         instancce.GetComponent<DamageNumberController>().SetNum(damage);
         if (m_hp < 0)
         {
-            // 脂肪モーションからのエンディング
-            m_animator.SetTrigger("Death");
-
-            yield return new WaitForSeconds(3);
-
-            SceneManager.LoadScene("Clear");
+            m_isDead = true;
+            StartCoroutine(Death());
         }
+    }
+
+    private void ReduceHpBar(float value)
+    {
+        // 一度実行中のDOを完了してからDOValueを実行
+        m_hpSlider.DOComplete();
+        m_hpSlider.DOValue(m_hpSlider.value - value, 1);
+    }
+
+    private IEnumerator Death()
+    {
+        // 脂肪モーションからのエンディング
+        m_animator.SetTrigger("Death");
+        // 当たり判定のコライダーを消したい
+        // ここでGetしていいか
+        transform.GetChild(0).gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene("Clear");
     }
 
     private void Jump()

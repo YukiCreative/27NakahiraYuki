@@ -8,12 +8,18 @@ public class DamageNumberController : MonoBehaviour
     private Rigidbody2D m_rigid;
     private const int kDeletePosY = -5;
     private TextMeshProUGUI m_textMeshProUGUI;
+
+    private void Awake()
+    {
+        m_rigid = GetComponent<Rigidbody2D>();
+        m_rigid.AddForce(new Vector2(Random.Range(-4f, 4f), Random.Range(2f, 4f)), ForceMode2D.Impulse);
+        m_textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        m_rigid = GetComponent<Rigidbody2D>();
-        m_rigid.AddForce(new Vector2(Random.Range(2, 4), Random.Range(2, 4)), ForceMode2D.Impulse);
-        m_textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+
     }
 
     // Update is called once per frame

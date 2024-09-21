@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 11
   m_Sprite: {fileID: 1986124608, guid: 5a93036a1a25774479b55e70a7d0bbf4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_jumpSE: {fileID: 8300000, guid: ed6b3fce33a210d479684cd0c5017e67, type: 3}
   m_landingSE: {fileID: 8300000, guid: 3b1a13c55329f3a44bf08db0d643243b, type: 3}
   m_strongLandingSE: {fileID: 8300000, guid: 2a4c43059a214144a965ed974234e502, type: 3}
+  m_canMove: 1
 --- !u!50 &6900021407763198681
 Rigidbody2D:
   serializedVersion: 4

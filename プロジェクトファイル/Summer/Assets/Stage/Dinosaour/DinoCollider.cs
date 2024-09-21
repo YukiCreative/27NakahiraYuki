@@ -14,7 +14,9 @@ public class DinoCollider : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // ‚±‚ñ‚È‚ñ‚Å‚¢‚¢‚â
-            controller.Damage((int)collision.relativeVelocity.sqrMagnitude);
+            int inpact = (int)collision.relativeVelocity.sqrMagnitude;
+            if (inpact < 1) return;
+            controller.Damage(inpact);
         }
     }
 }

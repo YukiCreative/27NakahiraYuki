@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     private HingeJoint2D m_mouseHinge;
     private DistanceJoint2D m_mouseDistance;
     private HingeJoint2D m_playerHinge;
+    private (int, int) m_jumpAbleAngle = (45, 135);
+    public bool m_canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!m_canMove) return;
+
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null) return;
 
@@ -200,7 +204,7 @@ public class PlayerController : MonoBehaviour
             ContactPoint2D point = collision.GetContact(i);
             //Debug.Log(Vector2.Angle(Vector2.right, point.normal));
             float contactAngle = Vector2.Angle(Vector2.right, point.normal);
-            if (contactAngle >= 60 && contactAngle <= 120)
+            if (contactAngle >= m_jumpAbleAngle.Item1 && contactAngle <= m_jumpAbleAngle.Item2)
             {
                 m_isGrounded = true;
             }
@@ -250,6 +254,4 @@ public class PlayerController : MonoBehaviour
 
         SceneManager.LoadScene(nextLoadScene);
     }
-
-    //public void 
 }
