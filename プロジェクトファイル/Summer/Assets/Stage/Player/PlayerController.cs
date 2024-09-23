@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private DistanceJoint2D m_mouseDistance;
     private HingeJoint2D m_playerHinge;
     private (int, int) m_jumpAbleAngle = (45, 135);
-    public bool m_canMove = true;
+    private bool m_canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -253,5 +253,19 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         SceneManager.LoadScene(nextLoadScene);
+    }
+
+    public void Stop()
+    {
+        m_canMove = false;
+        // 入力されている信号をリセットする
+        m_horizontalDirection = 0;
+        m_canJump = false;
+        m_munch = false;
+    }
+
+    public void Move()
+    {
+        m_canMove = true;
     }
 }

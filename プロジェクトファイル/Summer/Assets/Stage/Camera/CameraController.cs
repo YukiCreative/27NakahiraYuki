@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     private GameObject m_player;
     public static CameraController instance;
     private float m_goalPos;
+    public static bool s_trackPlayer = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!s_trackPlayer) return;
         Vector3 playerPos = m_player.transform.position;
         // プレイヤーの位置が特定の位置以外なら
         if (m_player.transform.position.x >= 0

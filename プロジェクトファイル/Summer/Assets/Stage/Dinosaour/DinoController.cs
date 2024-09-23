@@ -24,7 +24,7 @@ public class DinoController : MonoBehaviour
     [SerializeField]
     private GameObject m_damageNum;
     private GameObject m_canvas;
-    private bool m_isDead = false;
+    public bool m_conMove = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,7 @@ public class DinoController : MonoBehaviour
     private void FixedUpdate()
     {
         // 死んでたら動かないよね
-        if (m_isDead) return;
+        if (!m_conMove) return;
 
         // 左右に動いたり時々ジャンプしたり
         m_jumpTimer += Time.fixedDeltaTime;
@@ -56,7 +56,7 @@ public class DinoController : MonoBehaviour
     public void Damage(int damage)
     {
         // 死んでたら死なないよね
-        if (m_isDead) return;
+        if (!m_conMove) return;
 
         SEGenerator.InstantiateSE(m_audioClip);
         m_hp -= damage;
@@ -68,7 +68,6 @@ public class DinoController : MonoBehaviour
         instancce.GetComponent<DamageNumberController>().SetNum(damage);
         if (m_hp < 0)
         {
-            m_isDead = true;
             StartCoroutine(Death());
         }
     }
@@ -82,6 +81,7 @@ public class DinoController : MonoBehaviour
 
     private IEnumerator Death()
     {
+        m_conMove = false;
         // 脂肪モーションからのエンディング
         m_animator.SetTrigger("Death");
         // 当たり判定のコライダーを消したい
@@ -96,5 +96,10 @@ public class DinoController : MonoBehaviour
     private void Jump()
     {
         m_Rigidbody.AddForce(m_jumpPow, ForceMode2D.Impulse);
+    }
+
+    public void SetMove(bool value)
+    {
+        m_conMove = value;
     }
 }
