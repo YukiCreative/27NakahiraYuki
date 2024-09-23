@@ -9,10 +9,11 @@ public class OnsenController : MonoBehaviour
     private Tweener m_animation;
     [SerializeField]
     private AudioClip m_SE;
+    private BGMController m_BGM;
 
     private void Start()
     {
-
+        m_BGM = GameObject.Find("BGM").GetComponent<BGMController>();
     }
 
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class OnsenController : MonoBehaviour
             PlayerController.s_player.GetComponent<Rigidbody2D>().simulated = false;
             PlayerController.s_player.GetComponent<SpriteRenderer>().enabled = false;
             // BGMを止めて
-            BGMController.StopBGM();
+            m_BGM.StopBGM();
             // SE鳴らして
             SEGenerator.InstantiateSE(m_SE);
             // DOTweenでアニメーションして(クソキモインデントして)

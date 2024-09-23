@@ -15,6 +15,7 @@ public class BossBattleTrigger : MonoBehaviour
     GameObject m_movieMask;
     private GameObject m_cameraObject;
     private Camera m_cameraComponent;
+    private CameraController m_cameraController;
     [SerializeField]
     private GameObject m_dinosaur;
     private SpriteRenderer m_dinosaurSprite;
@@ -26,6 +27,7 @@ public class BossBattleTrigger : MonoBehaviour
     {
         m_cameraComponent = Camera.main;
         m_cameraObject = m_cameraComponent.gameObject;
+        m_cameraController = m_cameraObject.GetComponent<CameraController>();
         m_dinosaurSprite = m_dinosaur.GetComponent<SpriteRenderer>();
         m_dinosaurController = m_dinosaur.GetComponent<DinoController>();
         m_playerController = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -49,7 +51,7 @@ public class BossBattleTrigger : MonoBehaviour
         GetComponent<TilemapCollider2D>().enabled = false;
 
         // カメラがプレイヤーに追従する機能をオフにする
-        CameraController.s_trackPlayer = false;
+        m_cameraController.m_trackPlayer = false;
 
         // プレイヤーを動かなくする
         m_playerController.Stop();
@@ -71,13 +73,23 @@ public class BossBattleTrigger : MonoBehaviour
         sequence.Join(m_cameraObject.transform.DOMove(new Vector3(58, 0, -10), 3));
         // 敵の黒いのをなくす
         sequence.Append(m_dinosaurSprite.DOColor(Color.white, 3)
-            .OnComplete(() => m_dinosaurController.m_conMove = true));
+            .OnComplete(() => m_dinosaurController.m_canMove = true));
         // かつ敵のHPバーを出現させる
         sequence.Join(m_hpBarGroup.DOFade(1, 3));
         // マスクを消す。プレイヤーを操作可能にする
         sequence.Append(m_movieMask.transform.DOScale(new Vector3(1, 1.5f, 1), 1)
             .OnComplete(m_playerController.Move));
+        // クソコード
         // 実行
-        sequence.Play();
+        sequence.Play()
+        .OnComplete(() =>
+        {
+            m_cameraObject.transform.DOMove(
+            new Vector3(PlayerController.s_player.transform.position.x, 0, -10), 1)
+            .OnComplete(() =>
+            {
+                m_cameraController.m_trackPlayer = true;
+            });
+        });
     }
 }

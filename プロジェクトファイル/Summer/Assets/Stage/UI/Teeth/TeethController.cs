@@ -24,9 +24,11 @@ public class TeethController : MonoBehaviour
     private GameObject m_kikenUI;
     private GameObject m_kikenInstance;
     private bool m_isDeath = false;
+    private BGMController m_BGM;
     // Start is called before the first frame update
     void Start()
     {
+        m_BGM = GameObject.Find("BGM").GetComponent<BGMController>();
         instance = this;
         m_rect = GetComponent<RectTransform>();
         m_canvas = GameObject.Find("Canvas");
@@ -110,15 +112,20 @@ public class TeethController : MonoBehaviour
             // ここリテラルパンチなので、要チェック(定数化はしない模様)
             m_rect.sizeDelta = new Vector2(15, 10);
         }
+        if (m_rect.sizeDelta.y > 800)
+        {
+            // 最大に届いてもそこで止める
+            m_rect.sizeDelta = new Vector2(15, 800);
+        }
     }
 
     private IEnumerator TeethDeath()
     {
         // プレイヤーの動きを止める
-        PlayerController.s_player.GetComponent<Rigidbody2D>().simulated = false;
+        PlayerController.s_player.GetComponent<PlayerController>().Stop();
         // 画面を暗くする
         StartCoroutine(FadeManager.instance.FadeOut(120));
-        StartCoroutine(BGMController.ReduceBGM(3));
+        StartCoroutine(m_BGM.ReduceBGM(3));
 
         yield return new WaitForSeconds(3);
 

@@ -33,9 +33,19 @@ public class PlayerController : MonoBehaviour
     private HingeJoint2D m_playerHinge;
     private (int, int) m_jumpAbleAngle = (45, 135);
     private bool m_canMove = true;
+    private BGMController m_BGM;
     // Start is called before the first frame update
     void Start()
     {
+        // ゴミ
+        if (SceneManager.GetActiveScene().name == "TitleScene")
+        {
+            m_BGM = GameObject.Find("TitleBGM").GetComponent<BGMController>();
+        }
+        else
+        {
+            m_BGM = GameObject.Find("BGM").GetComponent<BGMController>();
+        }
         m_animator = GetComponent<Animator>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_gekituiEffect = (GameObject)Resources.Load("GekituiEffect");
@@ -223,13 +233,18 @@ public class PlayerController : MonoBehaviour
         {
             CameraController.instance.CameraMoveNomal();
         }
+        if (tag == "CameraMoveUp")
+        {
+            // ちょっと特殊
+            CameraController.instance.CameraMoveDown();
+        }
     }
 
     // これ絶対他スクリプトに移した方がいい
     private IEnumerator Death()
     {
         // BGMを止める
-        BGMController.StopBGM();
+        m_BGM.StopBGM();
         // なんでこれで正しい向きになるのかわ僕もわからなぃ
         // 速度の大きさって1にしたほうがいいのかな
         Quaternion angle = Quaternion.FromToRotation(Vector3.right, m_rigidbody.velocity);

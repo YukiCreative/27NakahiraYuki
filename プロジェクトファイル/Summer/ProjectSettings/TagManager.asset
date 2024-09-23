@@ -10,6 +10,7 @@ TagManager:
   - PlayerMouth
   - CameraMoveDown
   - CameraMoveUp
+  - TeethPaste
   layers:
   - Default
   - TransparentFX

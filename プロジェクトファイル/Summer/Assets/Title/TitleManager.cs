@@ -13,7 +13,7 @@ public class TitleManager : MonoBehaviour
     private GameObject m_player;
     [SerializeField]
     private AudioClip m_startSE;
-
+    private BGMController m_BGM;
     private void Start()
     {
         // ‚â‚Á‚Ï•¶š—ñ‚¾‚Æ•Ûç‚µ‚É‚­‚¢‚æ‚È[
@@ -28,6 +28,7 @@ public class TitleManager : MonoBehaviour
         {
             GameVariables.s_OneUpCornFlag[i] = true;
         }
+        m_BGM = GameObject.Find("TitleBGM").GetComponent<BGMController>();
     }
 
     // Update is called once per frame
@@ -52,7 +53,7 @@ public class TitleManager : MonoBehaviour
         // ‚»‚Ì‘O‚ÉUI‚ª‚ä‚Á‚­‚èÁ‚¦‚é
         // BGM‚à“¯‚¶‚æ‚¤‚ÉÁ‚¦‚é@
         yield return StartCoroutine(TransparencyUI(1));
-        yield return StartCoroutine(BGMController.ReduceBGM(1));
+        yield return StartCoroutine(m_BGM.ReduceBGM(1));
 
         m_ground.SetActive(false);
         m_player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
